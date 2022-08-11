@@ -28,3 +28,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Comandos git
 * git tag -a vx.x.x -m "descripcion breve..."
+
+## Links
+* https://valor-software.com/ng2-charts/#/GeneralInfo
