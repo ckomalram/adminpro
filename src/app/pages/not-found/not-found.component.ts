@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
+  annio: any;
   constructor() { }
 
   ngOnInit(): void {
+    this.annio = new Date().getFullYear();
   }
 
 }
