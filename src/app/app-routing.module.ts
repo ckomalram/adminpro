@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesRoutingModule } from './pages/pages.routing';
+import { AuthRoutingModule } from './auth/auth.routing';
 
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
-const routes: Routes = [
 
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+const routes: Routes = [
   { path: '**', component: NotFoundComponent }
 ];
 
@@ -17,7 +14,7 @@ const routes: Routes = [
   declarations: [],
   imports: [
     RouterModule.forRoot(routes),
-    PagesRoutingModule
+    PagesRoutingModule, AuthRoutingModule
   ],
   exports: [RouterModule]
 })
