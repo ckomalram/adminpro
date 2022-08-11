@@ -4,21 +4,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { PagesModule } from './pages/pages.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { AuthModule } from './auth/auth.module';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
     NotFoundComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, PagesModule
+    BrowserModule, AppRoutingModule, PagesModule, AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
