@@ -35,7 +35,10 @@
   <div class="col-6">
     <div class="card">
       <div class="card-body">
-        <app-incrementador (valorBarra)="progreso2 = $event" [progreso]="progreso2"></app-incrementador>
+        <app-incrementador
+        [btnclass]="'btn btn-info'"
+        (valorBarra)="progreso2 = $event"
+        [progreso]="progreso2"></app-incrementador>
       </div>
     </div>
   </div>
