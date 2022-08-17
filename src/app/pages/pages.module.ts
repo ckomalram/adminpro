@@ -9,15 +9,16 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
 import { MainPageComponent } from './main-page.component';
+import { AccountSettingComponent } from './account-setting/account-setting.component';
 
 
 
 @NgModule({
-  declarations: [DashboardComponent, ProgressComponent, Grafica1Component, MainPageComponent],
+  declarations: [DashboardComponent, ProgressComponent, Grafica1Component, MainPageComponent, AccountSettingComponent],
   imports: [
     CommonModule, SharedModule, RouterModule
     , FormsModule, ComponentsModule
   ],
-  exports: [DashboardComponent, ProgressComponent, Grafica1Component, MainPageComponent]
+  exports: [DashboardComponent, ProgressComponent, Grafica1Component, MainPageComponent, AccountSettingComponent]
 })
 export class PagesModule { }
