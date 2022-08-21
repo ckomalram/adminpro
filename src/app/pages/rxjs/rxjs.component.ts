@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 
 @Component({
   selector: 'app-rxjs',
@@ -8,9 +8,10 @@ import { Observable } from 'rxjs';
 export class RxjsComponent implements OnInit {
 
   constructor() {
+    let i = -1;
     const obs$ = new Observable(observer => {
-      let i = -1;
-     const intervalo = setInterval(() => {
+
+      const intervalo = setInterval(() => {
         // console.log('tik tac...');
         i++;
         observer.next(i);
@@ -23,15 +24,19 @@ export class RxjsComponent implements OnInit {
         if (i === 2) {
           observer.error('Simulando error en 2..');
         }
-      },1500);
+      }, 1500);
 
     });
 
-    obs$.subscribe(
+    obs$
+    .pipe(
+      retry(1)
+    )
+    .subscribe(
       (valor) => console.log('sobs: ', valor),
       (error) => console.warn('Error ocurrido: ', error),
       () => console.info('Observable terminado!')
-      );
+    );
   }
 
   ngOnInit(): void {
