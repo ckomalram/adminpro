@@ -10,11 +10,12 @@ import { ProgressComponent } from './progress/progress.component';
 import { Grafica1Component } from './grafica1/grafica1.component';
 import { MainPageComponent } from './main-page.component';
 import { AccountSettingComponent } from './account-setting/account-setting.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 
 
 @NgModule({
-  declarations: [DashboardComponent, ProgressComponent, Grafica1Component, MainPageComponent, AccountSettingComponent],
+  declarations: [DashboardComponent, ProgressComponent, Grafica1Component, MainPageComponent, AccountSettingComponent, RxjsComponent],
   imports: [
     CommonModule, SharedModule, RouterModule
     , FormsModule, ComponentsModule
