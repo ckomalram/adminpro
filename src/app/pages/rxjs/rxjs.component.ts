@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, retry, interval, take, map, filter } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, retry, interval, take, map, filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-rxjs',
   templateUrl: './rxjs.component.html'
 })
-export class RxjsComponent implements OnInit {
+export class RxjsComponent implements OnInit, OnDestroy {
+
+  intervaloSubs: Subscription;
 
   constructor() {
 
-    this.retornaIntervalo()
+    this.intervaloSubs = this.retornaIntervalo()
       .subscribe(valor => console.log(valor));
 
 
@@ -27,6 +29,10 @@ export class RxjsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.intervaloSubs.unsubscribe();
   }
 
   retornaIntervalo(): Observable<number> {
