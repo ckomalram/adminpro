@@ -8,8 +8,24 @@ import { Observable, retry } from 'rxjs';
 export class RxjsComponent implements OnInit {
 
   constructor() {
+
+    this.retornaObs()
+    .pipe(
+      retry(1)
+    )
+    .subscribe(
+      (valor) => console.log('sobs: ', valor),
+      (error) => console.warn('Error ocurrido: ', error),
+      () => console.info('Observable terminado!')
+    );
+  }
+
+  ngOnInit(): void {
+  }
+
+  retornaObs(): Observable<number>{
     let i = -1;
-    const obs$ = new Observable(observer => {
+    const obs$ = new Observable<number>(observer => {
 
       const intervalo = setInterval(() => {
         // console.log('tik tac...');
@@ -28,18 +44,7 @@ export class RxjsComponent implements OnInit {
 
     });
 
-    obs$
-    .pipe(
-      retry(1)
-    )
-    .subscribe(
-      (valor) => console.log('sobs: ', valor),
-      (error) => console.warn('Error ocurrido: ', error),
-      () => console.info('Observable terminado!')
-    );
-  }
-
-  ngOnInit(): void {
+    return obs$;
   }
 
 
