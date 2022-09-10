@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-register',
@@ -36,7 +37,11 @@ export class RegisterComponent {
     //Crear usuario
     this.userService.createUser(this.registerForm.value).subscribe(resp => {
       console.log(resp);
-    }, (err) => console.warn(err));
+    }, (err) => {
+      console.warn(err);
+      Swal.fire('Error al crear usuario', err.error.msg, 'error');
+
+    });
   }
 
   campoNoValido(campo: string): boolean {
