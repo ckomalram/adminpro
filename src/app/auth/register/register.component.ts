@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -11,16 +12,16 @@ export class RegisterComponent {
   public formSubmitted = false;
 
   public registerForm = this.formbuilder.group({
-    name: ['komalram', [Validators.required, Validators.minLength(3)]],
+    name: ['komalram 09102022', [Validators.required, Validators.minLength(3)]],
     email: ['komalram@gmail.com', [Validators.required, Validators.email]],
-    password: ['123456', [Validators.required, Validators.minLength(5)]],
-    password2: ['1234567', [Validators.required, Validators.minLength(5)]],
-    terms: [false, [Validators.required]]
+    password: ['12345', [Validators.required, Validators.minLength(5)]],
+    password2: ['12345', [Validators.required, Validators.minLength(5)]],
+    terms: [true, [Validators.required]]
   }, {
     validators: this.passwordIguales('password', 'password2')
   });
 
-  constructor(private formbuilder: FormBuilder) { }
+  constructor(private formbuilder: FormBuilder, private userService: UserService) { }
 
   createUser() {
     this.formSubmitted = true;
@@ -29,11 +30,13 @@ export class RegisterComponent {
     // console.log(this.registerForm.valid);
 
 
-    if (this.registerForm.valid) {
-      console.log('Posteando formulario');
-    } else {
-      console.log('Formulario no es correcto..');
+    if (this.registerForm.invalid) {
+      return;
     }
+    //Crear usuario
+    this.userService.createUser(this.registerForm.value).subscribe(resp => {
+      console.log(resp);
+    }, (err) => console.warn(err));
   }
 
   campoNoValido(campo: string): boolean {
