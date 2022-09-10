@@ -31,3 +31,20 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Links
 * https://valor-software.com/ng2-charts/#/GeneralInfo
+
+
+
+## Seccion 14 
+Conectar el Front-end con el Back-end (login)
+
+Usar Sweet Alert para mostrar mensajes
+
+Login normal de usuario
+
+Login de Google
+
+LocalStorage para almacenar tokens
+
+Protección básica de rutas
+
+Logout
