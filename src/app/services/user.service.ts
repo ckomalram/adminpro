@@ -37,4 +37,16 @@ export class UserService {
       })
     )
   }
+
+  loginWithGoogle(token: string){
+
+    return this.http.post(`${baseUrl}/login/google`, { token})
+    .pipe(
+      tap((resp: any) => {
+        console.log(resp);
+
+        localStorage.setItem('x-token', resp.token);
+      })
+    )
+  }
 }

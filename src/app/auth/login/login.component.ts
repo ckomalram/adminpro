@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   googleInit(){
     google.accounts.id.initialize({
       client_id: "1031855842968-77bn5i4qlpvsoptmvc2njaivaoaedp30.apps.googleusercontent.com",
-      callback: this.handleCredentialResponse
+      callback: (response: any) =>  this.handleCredentialResponse(response)
     });
     google.accounts.id.renderButton(
       // document.getElementById("buttonDiv"),
@@ -52,6 +52,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   handleCredentialResponse(response: any){
     console.log("Encoded JWT ID token: " + response.credential);
+
+    this.userService.loginWithGoogle(response.credential).subscribe(resp => {
+      console.log('login google', resp);
+      this.router.navigateByUrl('/');
+
+    })
   }
 
   login() {
@@ -68,7 +74,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       }else{
         localStorage.removeItem('email');
       }
-
+      this.router.navigateByUrl('/');
     }, (err) => {
       console.warn(err);
       Swal.fire('Error al Logearse', err.error.msg, 'error');
