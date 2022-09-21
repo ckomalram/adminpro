@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { environment } from '../../environments/environment';
+import { LoginForm } from '../interfaces/login-form.interface';
+import { tap } from 'rxjs/operators';
 
 
 const baseUrl = environment.BASE_URL;
@@ -15,6 +17,24 @@ export class UserService {
   createUser(formData: RegisterForm) {
     console.log('Creando usuario: ', formData);
 
-    return this.http.post(`${baseUrl}/users`, formData);
+    return this.http.post(`${baseUrl}/users`, formData).pipe(
+      tap((resp: any) => {
+        console.log(resp);
+
+        localStorage.setItem('x-token', resp.token);
+      })
+    )
+  }
+
+  login(formData: LoginForm) {
+    // console.log('Logeando usuario: ', formData);
+
+    return this.http.post(`${baseUrl}/login`, formData).pipe(
+      tap((resp: any) => {
+        console.log(resp);
+
+        localStorage.setItem('x-token', resp.token);
+      })
+    )
   }
 }
