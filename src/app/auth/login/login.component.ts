@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -23,7 +23,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router,
     private formbuilder: FormBuilder,
-    private userService: UserService) {
+    private userService: UserService,
+    private ngZone: NgZone
+    ) {
     this.loginForm=this.formbuilder.group({
       email: [ localStorage.getItem('email') || '', [Validators.required, Validators.email]] ,
       password: ['', [Validators.required]] ,
@@ -55,7 +57,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     this.userService.loginWithGoogle(response.credential).subscribe(resp => {
       console.log('login google', resp);
-      this.router.navigateByUrl('/');
+      //se agrega ngzone por warning
+      this.ngZone.run(() => this.router.navigateByUrl('/'));
 
     })
   }
@@ -70,7 +73,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.userService.login(this.loginForm.value).subscribe((resp) => {
       console.log(resp);
       if (this.loginForm.get('remember')?.value) {
-        localStorage.setItem('email', this.loginForm.get('remember')?.value);
+        localStorage.setItem('email', this.loginForm.get('email')?.value);
       }else{
         localStorage.removeItem('email');
       }
