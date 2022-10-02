@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 const baseUrl = environment.BASE_URL;
@@ -13,7 +14,7 @@ const baseUrl = environment.BASE_URL;
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:  Router) { }
 
   validateToken(): Observable<boolean>{
     const token = localStorage.getItem('x-token') || '';
@@ -63,5 +64,18 @@ export class UserService {
         localStorage.setItem('x-token', resp.token);
       })
     )
+  }
+
+  logout(){
+    localStorage.removeItem('x-token');
+
+    this.router.navigateByUrl('/login');
+    // google.accounts.id.revoke(this.user.email, () => {
+    //   this.router.navigateByUrl('/login');
+    // })
+
+    // google.accounts.id.revoke('komalramtec@gmail.com', () => {
+    //   this.router.navigateByUrl('/login');
+    // })
   }
 }
