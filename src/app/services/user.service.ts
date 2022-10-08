@@ -6,28 +6,36 @@ import { LoginForm } from '../interfaces/login-form.interface';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { User } from '../models/user.model';
 
 const baseUrl = environment.BASE_URL;
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
+  public user?: User;
 
-  constructor(private http: HttpClient, private router:  Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  validateToken(): Observable<boolean>{
+  validateToken(): Observable<boolean> {
     const token = localStorage.getItem('x-token') || '';
 
-    return this.http.get(`${baseUrl}/login/renew`, {
-      headers: {'x-token': token}
-    }).pipe(
-      tap((resp: any) => {
-        localStorage.setItem('x-token', resp.token);
-      }),
-      map(resp => true),
-      catchError(error =>  of(false))
-    )
+    return this.http
+      .get(`${baseUrl}/login/renew`, {
+        headers: { 'x-token': token },
+      })
+      .pipe(
+        tap((resp: any) => {
+          const { email, google, img, name, role, uid } = resp.user;
+          console.log(resp);
+          this.user = new User(name, email, '',google,img,role,uid);
+          console.log(this.user);
+
+          localStorage.setItem('x-token', resp.token);
+        }),
+        map((resp) => true),
+        catchError((error) => of(false))
+      );
   }
 
   createUser(formData: RegisterForm) {
@@ -35,11 +43,9 @@ export class UserService {
 
     return this.http.post(`${baseUrl}/users`, formData).pipe(
       tap((resp: any) => {
-        console.log(resp);
-
         localStorage.setItem('x-token', resp.token);
       })
-    )
+    );
   }
 
   login(formData: LoginForm) {
@@ -51,22 +57,20 @@ export class UserService {
 
         localStorage.setItem('x-token', resp.token);
       })
-    )
+    );
   }
 
-  loginWithGoogle(token: string){
-
-    return this.http.post(`${baseUrl}/login/google`, { token})
-    .pipe(
+  loginWithGoogle(token: string) {
+    return this.http.post(`${baseUrl}/login/google`, { token }).pipe(
       tap((resp: any) => {
         console.log(resp);
 
         localStorage.setItem('x-token', resp.token);
       })
-    )
+    );
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('x-token');
 
     this.router.navigateByUrl('/login');
