@@ -7,6 +7,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
+import { LoadUsers } from '../interfaces/load-users.interfaces';
 
 const baseUrl = environment.BASE_URL;
 @Injectable({
@@ -25,6 +26,12 @@ export class UserService {
 
   get uid(){
     return this.user.uid || '';
+  }
+
+  get headers(){
+    return {
+      headers: { 'x-token': this.token },
+    }
   }
 
   validateToken(): Observable<boolean> {
@@ -100,5 +107,10 @@ export class UserService {
     // google.accounts.id.revoke('komalramtec@gmail.com', () => {
     //   this.router.navigateByUrl('/login');
     // })
+  }
+
+  getUsers(from: number=0, limit: number= 5){
+    // http://localhost:3000/api/users?from=0&limit=5
+    return this.http.get<LoadUsers>(`${baseUrl}/users?from=${from}&limit=${limit}`, this.headers);
   }
 }
