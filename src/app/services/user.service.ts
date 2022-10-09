@@ -13,27 +13,34 @@ const baseUrl = environment.BASE_URL;
   providedIn: 'root',
 })
 export class UserService {
-  public user?: User;
+  public user: User;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.user = new User('', '','',false,'','','');
+  }
+
+  get token() {
+    return localStorage.getItem('x-token') || '';
+  }
+
+  get uid(){
+    return this.user.uid || '';
+  }
 
   validateToken(): Observable<boolean> {
-    const token = localStorage.getItem('x-token') || '';
+    // const token = localStorage.getItem('x-token') || '';
 
     return this.http
       .get(`${baseUrl}/login/renew`, {
-        headers: { 'x-token': token },
+        headers: { 'x-token': this.token },
       })
       .pipe(
-        tap((resp: any) => {
-          const { email, google, img, name, role, uid } = resp.user;
-          console.log(resp);
-          this.user = new User(name, email, '',google,img,role,uid);
-          console.log(this.user);
-
+        map((resp: any) => {
+          const { email, google, img = '', name, role, uid } = resp.user;
+          this.user = new User(name, email, '', google, img, role, uid);
           localStorage.setItem('x-token', resp.token);
+          return true;
         }),
-        map((resp) => true),
         catchError((error) => of(false))
       );
   }
@@ -46,6 +53,18 @@ export class UserService {
         localStorage.setItem('x-token', resp.token);
       })
     );
+  }
+
+  updateProfile(data: { email: string; name: string, role: string }) {
+
+    data = {
+      ...data,
+      role: this.user?.role
+    };
+
+    return this.http.put(`${baseUrl}/users/${this.uid}`, data, {
+      headers: { 'x-token': this.token },
+    });
   }
 
   login(formData: LoginForm) {

@@ -7,11 +7,11 @@ export class User {
   constructor(
     public name: string,
     public email: string,
-    public password?: string,
-    public google?: boolean,
-    public img?: string,
-    public role?: string,
-    public uid?: string) { }
+    public password: string,
+    public google: boolean,
+    public img: string,
+    public role: string,
+    public uid: string) { }
 
     // /upload/users/nombreImagen.xxx
     get imgUrl(){

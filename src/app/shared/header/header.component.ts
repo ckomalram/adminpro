@@ -8,7 +8,7 @@ import { UserService } from '../../services/user.service';
 })
 export class HeaderComponent implements OnInit {
 
-public user?: User;
+public user: User;
 
   constructor(private userService: UserService) {
     this.user = this.userService.user;
