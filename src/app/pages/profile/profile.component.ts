@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -11,9 +12,10 @@ export class ProfileComponent implements OnInit {
 
   public profileForm: FormGroup;
   public user: User;
+  public imagenSubir!: File;
 
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(private fb: FormBuilder, private userService: UserService, private fus: FileUploadService) {
     this.profileForm = this.fb.group({})
     this.user = this.userService.user;
    }
@@ -37,6 +39,16 @@ export class ProfileComponent implements OnInit {
       this.user.email= email;
 
     })
+  }
+
+  cambiarImagen(event: any){
+    this.imagenSubir = event.target.files[0];
+    console.log(this.imagenSubir);
+  }
+
+  subirImagen(){
+    this.fus.updatePhoto(this.imagenSubir, 'users', this.user.uid)
+    .then( img => console.log(img));
   }
 
 }

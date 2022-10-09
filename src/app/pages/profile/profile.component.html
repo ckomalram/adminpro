@@ -51,13 +51,15 @@
         <h4 class="card-title">Avatar</h4>
         <h6 class="card-subtitle">Imagen de usuario</h6>
         <img src="" alt="" />
-        <input type="file" name="" id="" />
+        <input type="file"  (change)="cambiarImagen($event)" />
 
         <br />
         <br />
         <button
           type="button"
           class="btn btn-success btn-block waves-effect waves-light m-r-10"
+          [disabled]="!imagenSubir"
+          (click)="subirImagen()"
         >
           <i class="fa fa-save"></i>
           Cambiar Imagen
