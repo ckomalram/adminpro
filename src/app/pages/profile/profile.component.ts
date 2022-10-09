@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -39,6 +40,13 @@ export class ProfileComponent implements OnInit {
       this.user.name= name;
       this.user.email= email;
 
+      Swal.fire('Actualizar datos', 'Cambios guardados correctamente','success');
+
+    }, err => {
+      console.log(err);
+      // console.log(err.error.msg);
+      Swal.fire('Actualizar datos', err.error.msg,'error');
+
     })
   }
 
@@ -62,7 +70,15 @@ export class ProfileComponent implements OnInit {
 
   subirImagen(){
     this.fus.updatePhoto(this.imagenSubir, 'users', this.user.uid)
-    .then( img => this.user.img = img);
+    .then( img => {
+      Swal.fire('Actualizar imagen', 'Cambios guardados correctamente','success');
+      this.user.img = img
+
+    }).catch(err => {
+      console.log(err);
+      Swal.fire('Actualizar imagen', 'No se pudo cargar la imagen','error');
+
+    });
   }
 
 }
