@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-
 const BASE_URL = environment.BASE_URL;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FileUploadService {
+  constructor() {}
 
-  constructor() { }
-
+  // usando fetchapi, metodo nativo de js.
   async updatePhoto(
     file: File,
-    tipo: 'users'|'medics' | 'hospitals',
+    tipo: 'users' | 'medics' | 'hospitals',
     id: string
-      ){
-
+  ) {
     try {
-
       const url = `${BASE_URL}/upload/${tipo}/${id}`;
       const formData = new FormData();
       formData.append('imagen', file);
@@ -26,19 +23,21 @@ export class FileUploadService {
       const resp = await fetch(url, {
         method: 'PUT',
         headers: {
-          'x-token': localStorage.getItem('x-token') || ''
+          'x-token': localStorage.getItem('x-token') || '',
         },
-        body: formData
+        body: formData,
       });
 
       const data = await resp.json();
 
+      if (data.ok) {
+        return data.nombreArchivo;
+      }
       console.log(data);
-      return 'Nombre de la imagen';
+      return false;
     } catch (error) {
       console.log(error);
       return false;
-
     }
   }
 }
