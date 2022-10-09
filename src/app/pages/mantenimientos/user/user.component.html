@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<div class="row animated fadeIn fast">
+<div class="row animated fadeIn fast" *ngIf="loading">
   <div class="col-12">
     <div class="alert alert-info text-center">
       <h4 class="alert-heading">Cargando</h4>
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row animated fadeIn fast" *ngIf="!loading">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
@@ -30,17 +30,17 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Avatar</th>
+                <th class="w100">Avatar</th>
                 <th>Correo</th>
                 <th>Nombre</th>
-                <th>Role</th>
-                <th>Auth</th>
-                <th class="text-nowrap">Acciones</th>
+                <th class="w100">Role</th>
+                <th class="w100">Auth</th>
+                <th class="text-nowrap" class="w100">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let user of users">
-                <td>xxxxxxx</td>
+                <td class="text-center"> <img [src]="user.imgUrl" alt="Avatar Usuario" class="avatar"></td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.role }}</td>
@@ -48,7 +48,7 @@
                   <span *ngIf="user.google" class="label label-danger">Google</span>
                   <span *ngIf="!user.google" class="label label-info">Normal</span>
                 </td>
-                <td class="text-nowrap">
+                <td class="text-nowrap text-center">
                   <a
                     href="#"
                     data-toggle="tooltip"

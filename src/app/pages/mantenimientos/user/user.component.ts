@@ -10,6 +10,7 @@ export class UserComponent implements OnInit {
   public totalUser: number = 0;
   public users: User[] = [];
   public desde: number = 0;
+  public loading = false;
 
   constructor(private userServices: UserService) {}
 
@@ -18,6 +19,7 @@ export class UserComponent implements OnInit {
   }
 
   cargarUsuarios() {
+    this.loading = true;
     this.userServices.getUsers(this.desde).subscribe((resp) => {
       console.log(resp);
       this.totalUser = resp.totalUsers;
@@ -26,6 +28,9 @@ export class UserComponent implements OnInit {
       if(resp.users.length !== 0){
         this.users = resp.users;
       }
+
+    this.loading = false;
+
     });
   }
 

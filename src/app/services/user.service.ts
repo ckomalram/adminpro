@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { environment } from '../../environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
-import { tap, map, catchError } from 'rxjs/operators';
+import { tap, map, catchError, delay } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
@@ -17,21 +17,21 @@ export class UserService {
   public user: User;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.user = new User('', '','',false,'','','');
+    this.user = new User('', '', '', false, '', '', '');
   }
 
   get token() {
     return localStorage.getItem('x-token') || '';
   }
 
-  get uid(){
+  get uid() {
     return this.user.uid || '';
   }
 
-  get headers(){
+  get headers() {
     return {
       headers: { 'x-token': this.token },
-    }
+    };
   }
 
   validateToken(): Observable<boolean> {
@@ -62,11 +62,10 @@ export class UserService {
     );
   }
 
-  updateProfile(data: { email: string; name: string, role: string }) {
-
+  updateProfile(data: { email: string; name: string; role: string }) {
     data = {
       ...data,
-      role: this.user?.role
+      role: this.user?.role,
     };
 
     return this.http.put(`${baseUrl}/users/${this.uid}`, data, {
@@ -109,8 +108,37 @@ export class UserService {
     // })
   }
 
-  getUsers(from: number=0, limit: number= 5){
+  getUsers(from: number = 0, limit: number = 5) {
     // http://localhost:3000/api/users?from=0&limit=5
-    return this.http.get<LoadUsers>(`${baseUrl}/users?from=${from}&limit=${limit}`, this.headers);
+    return this.http
+      .get<LoadUsers>(
+        `${baseUrl}/users?from=${from}&limit=${limit}`,
+        this.headers
+      )
+      .pipe(
+        // delay(5000),
+        map((resp) => {
+          const users = resp.users.map(
+            (user) =>
+              new User(
+                user.name,
+                user.email,
+                '',
+                user.google,
+                user.img,
+                user.role,
+                user.uid
+              )
+          );
+
+
+          return {
+            users,
+            totalUsers: resp.totalUsers,
+            uid: resp.uid,
+            ok: resp.ok
+          };
+        })
+      );
   }
 }

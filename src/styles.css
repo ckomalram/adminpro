@@ -23,3 +23,13 @@ width: 200px;
 height: 200px;
 border-radius: 5rem;
 }
+
+.w100{
+  width: 100px;
+}
+
+.avatar{
+  border-radius: 100%;
+  width: 30px;
+  /* border: 1px solid grey; */
+}
