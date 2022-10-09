@@ -2,7 +2,13 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <input type="text" class="form-control" placeholder="Buscar Usuario" />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar Usuario"
+          #txtBuscar
+          (keyup)="buscar(txtBuscar.value)"
+        />
       </div>
     </div>
   </div>
@@ -40,13 +46,23 @@
             </thead>
             <tbody>
               <tr *ngFor="let user of users">
-                <td class="text-center"> <img [src]="user.imgUrl" alt="Avatar Usuario" class="avatar"></td>
+                <td class="text-center">
+                  <img
+                    [src]="user.imgUrl"
+                    alt="Avatar Usuario"
+                    class="avatar"
+                  />
+                </td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.role }}</td>
                 <td>
-                  <span *ngIf="user.google" class="label label-danger">Google</span>
-                  <span *ngIf="!user.google" class="label label-info">Normal</span>
+                  <span *ngIf="user.google" class="label label-danger"
+                    >Google</span
+                  >
+                  <span *ngIf="!user.google" class="label label-info"
+                    >Normal</span
+                  >
                 </td>
                 <td class="text-nowrap text-center">
                   <a
