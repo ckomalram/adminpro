@@ -12,11 +12,14 @@ import { MainPageComponent } from './main-page.component';
 import { AccountSettingComponent } from './account-setting/account-setting.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UserComponent } from './mantenimientos/user/user.component';
+import { HospitalComponent } from './mantenimientos/hospital/hospital.component';
+import { MedicoComponent } from './mantenimientos/medico/medico.component';
 
 
 
 @NgModule({
-  declarations: [DashboardComponent, ProgressComponent, Grafica1Component, MainPageComponent, AccountSettingComponent, RxjsComponent, ProfileComponent],
+  declarations: [DashboardComponent, ProgressComponent, Grafica1Component, MainPageComponent, AccountSettingComponent, RxjsComponent, ProfileComponent, UserComponent, HospitalComponent, MedicoComponent],
   imports: [
     CommonModule, SharedModule, RouterModule
     , FormsModule, ComponentsModule, ReactiveFormsModule
