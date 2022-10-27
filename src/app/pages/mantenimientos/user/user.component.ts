@@ -10,6 +10,7 @@ import { BusquedasService } from 'src/app/services/busquedas.service';
 export class UserComponent implements OnInit {
   public totalUser: number = 0;
   public users: User[] = [];
+  public usersTmp: User[] = [];
   public desde: number = 0;
   public loading = false;
 
@@ -21,13 +22,14 @@ export class UserComponent implements OnInit {
 
   cargarUsuarios() {
     this.loading = true;
-    this.userServices.getUsers(this.desde).subscribe((resp) => {
-      console.log(resp);
-      this.totalUser = resp.totalUsers;
+    this.userServices.getUsers(this.desde).subscribe(({totalUsers, users}) => {
+      // console.log(resp);
+      this.totalUser = totalUsers;
 
 
-      if(resp.users.length !== 0){
-        this.users = resp.users;
+      if(users.length !== 0){
+        this.users = users;
+        this.usersTmp = users;
       }
 
     this.loading = false;
@@ -48,6 +50,13 @@ export class UserComponent implements OnInit {
   }
 
   buscar(termino: string){
+
+    if (termino.length === 0) {
+      this.users = this.usersTmp;
+        return;
+    }
+
+
     this.busquedaServices.buscar('users', termino)
     .subscribe(resultados => {
       this.users = resultados
