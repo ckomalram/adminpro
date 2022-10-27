@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { LoadUsers } from '../interfaces/load-users.interfaces';
+import Swal from 'sweetalert2';
 
 const baseUrl = environment.BASE_URL;
 @Injectable({
@@ -140,5 +141,13 @@ export class UserService {
           };
         })
       );
+  }
+
+  eliminarUser(user: User){
+
+
+   return  this.http.delete(`${baseUrl}/users/${user.uid}`,{
+      headers: {'x-token': this.token}
+    });
   }
 }
