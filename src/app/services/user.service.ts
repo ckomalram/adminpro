@@ -64,10 +64,10 @@ export class UserService {
   }
 
   updateProfile(data: { email: string; name: string; role: string }) {
-    // data = {
-    //   ...data,
-    //   role: this.user?.role,
-    // };
+    data = {
+      ...data,
+      role: this.user?.role,
+    };
 
     return this.http.put(`${baseUrl}/users/${this.uid}`, data, this.headers);
   }
