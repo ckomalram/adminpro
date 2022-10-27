@@ -66,24 +66,35 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: `Proceder a borrar usuario ${user.name}`,
-      icon: 'question',
-      showCancelButton: true,
-      // confirmButtonColor: '#3085d6',
-      // cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, borrar!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.userServices.eliminarUser(user).subscribe((resp: any) => {
-          // console.log(resp);
-          this.cargarUsuarios();
-          Swal.fire('Borrado!', resp.msg, 'success');
-        },error => {
-          Swal.fire('Borrado fallido!', 'Error al eliminar el usuario', 'warning');
-        });
-      }
-    });
+    if (user.uid === this.userServices.uid) {
+      Swal.fire('', 'No puedes borrarte a ti mismo.', 'warning');
+    } else {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: `Proceder a borrar usuario ${user.name}`,
+        icon: 'question',
+        showCancelButton: true,
+        // confirmButtonColor: '#3085d6',
+        // cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, borrar!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.userServices.eliminarUser(user).subscribe(
+            (resp: any) => {
+              // console.log(resp);
+              this.cargarUsuarios();
+              Swal.fire('Borrado!', resp.msg, 'success');
+            },
+            (error) => {
+              Swal.fire(
+                'Borrado fallido!',
+                'Error al eliminar el usuario',
+                'warning'
+              );
+            }
+          );
+        }
+      });
+    }
   }
 }
